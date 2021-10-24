@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
-
+#include <time.h> 
 
 #define TAM 2048
 #define GENERATIONS 2000
 #define PRINTTAM 50
+#define CORES 1
 
 void initiateMatrix(int **grid){
     int i = 0, j = 0;
@@ -141,8 +142,8 @@ int getCellsAlive(int **grid){
 
 int main (){
 
-    // omp_set_num_threads(8);
-
+    omp_set_num_threads(CORES);
+    time_t start, end;
     int **grid, **newGrid, i, j, cellsAlive = 0;
     grid = (int**) malloc (sizeof(int*) * TAM);
     newGrid = (int**) malloc (sizeof(int*) * TAM);
@@ -151,6 +152,7 @@ int main (){
         grid[i] = (int*) malloc (sizeof(int) * TAM);
         newGrid[i] = (int*) malloc (sizeof(int) * TAM);
     }
+    time(&start);
     initiateMatrix(grid);
     initiateMatrix(newGrid);
     
@@ -163,5 +165,8 @@ int main (){
     }
     changeGeneration(grid, newGrid);
     printf("Geração %d: %d\n", GENERATIONS, getCellsAlive(grid));
+    time(&end);
+    double dif = difftime (end,start); 
+    printf ("Tempo passado: %.2lf segundos.\n", dif ); 
     return 0;
 }
