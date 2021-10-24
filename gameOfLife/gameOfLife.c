@@ -3,7 +3,7 @@
 
 #define TAM 2048
 #define GENERATIONS 2000
-
+#define PRINTTAM 50
 
 void initiateMatrix(int **grid){
     int i = 0, j = 0;
@@ -76,8 +76,8 @@ int getNeighbors(int **grid, int i, int j)
 void printMatrix(int **grid){
     int i = 0, j = 0;
 
-    for(i = 0; i < TAM; i++){
-        for(j = 0; j < TAM; j++){
+    for(i = 0; i < PRINTTAM; i++){
+        for(j = 0; j < PRINTTAM; j++){
             printf("%d  ", grid[i][j]);
         }
         printf("\n");
@@ -119,11 +119,13 @@ int getCellsAlive(int **grid){
     int i, j;
     int cellsAlive = 0;
 
+
     for(i = 0; i < TAM; i++){
         for(j = 0; j < TAM; j++){
             if(grid[i][j] == 1) cellsAlive = cellsAlive + 1 ;
         }
     }
+
     return cellsAlive;
 }
 
@@ -132,6 +134,7 @@ int main (){
     int **grid, **newGrid, i, j, cellsAlive = 0;
     grid = (int**) malloc (sizeof(int*) * TAM);
     newGrid = (int**) malloc (sizeof(int*) * TAM);
+
     for(i = 0; i < TAM; i++){
         grid[i] = (int*) malloc (sizeof(int) * TAM);
         newGrid[i] = (int*) malloc (sizeof(int) * TAM);
@@ -142,10 +145,13 @@ int main (){
     for(i = 0; i < GENERATIONS-1; i++){
         changeGeneration(grid, newGrid);
         getCellsAlive(grid);
+        if(i < 5){
+            printMatrix(grid);
+            
+        }
         printf("Geração %d: %d\n", i+1, getCellsAlive(grid));
     }
     changeGeneration(grid, newGrid);
     printf("Geração %d: %d\n", GENERATIONS, getCellsAlive(grid));
     return 0;
-
 }
