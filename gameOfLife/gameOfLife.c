@@ -152,10 +152,11 @@ int main (){
         grid[i] = (int*) malloc (sizeof(int) * TAM);
         newGrid[i] = (int*) malloc (sizeof(int) * TAM);
     }
-    time(&start);
+    
     initiateMatrix(grid);
     initiateMatrix(newGrid);
     
+    time(&start);
     for(i = 0; i < GENERATIONS-1; i++){
         changeGeneration(grid, newGrid);
         // if(i < 5){
@@ -164,8 +165,8 @@ int main (){
         printf("Geração %d: %d\n", i+1, getCellsAlive(grid));
     }
     changeGeneration(grid, newGrid);
-    printf("Geração %d: %d\n", GENERATIONS, getCellsAlive(grid));
     time(&end);
+    printf("Geração %d: %d\n", GENERATIONS, getCellsAlive(grid));
     double dif = difftime (end,start); 
     printf ("Tempo passado: %.2lf segundos.\n", dif ); 
     return 0;
