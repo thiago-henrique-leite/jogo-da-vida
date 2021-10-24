@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
+
 
 #define TAM 2048
 #define GENERATIONS 2000
@@ -9,6 +11,10 @@ void initiateMatrix(int **grid){
     int i = 0, j = 0;
     int lin;
     int col;
+
+#pragma omp parallel private(i, j)
+
+#pragma omp for
     for(i = 0; i < TAM; i++){
         for(j = 0; j < TAM; j++){
             grid[i][j] = 0;
@@ -102,6 +108,9 @@ int newCellStatus(int **grid, int i, int j){
 void changeGeneration(int **grid, int **newGrid){
     int i, j;
 
+#pragma omp parallel private(i, j)
+
+#pragma omp for
     for(i = 0; i < TAM; i++){
         for(j = 0; j < TAM; j++){
             newGrid[i][j] = newCellStatus(grid, i, j);
@@ -118,8 +127,9 @@ void changeGeneration(int **grid, int **newGrid){
 int getCellsAlive(int **grid){
     int i, j;
     int cellsAlive = 0;
+#pragma omp parallel private(i, j)
 
-
+#pragma omp for
     for(i = 0; i < TAM; i++){
         for(j = 0; j < TAM; j++){
             if(grid[i][j] == 1) cellsAlive = cellsAlive + 1 ;
@@ -130,6 +140,8 @@ int getCellsAlive(int **grid){
 }
 
 int main (){
+
+    // omp_set_num_threads(8);
 
     int **grid, **newGrid, i, j, cellsAlive = 0;
     grid = (int**) malloc (sizeof(int*) * TAM);
@@ -144,11 +156,9 @@ int main (){
     
     for(i = 0; i < GENERATIONS-1; i++){
         changeGeneration(grid, newGrid);
-        getCellsAlive(grid);
-        if(i < 5){
-            printMatrix(grid);
-            
-        }
+        // if(i < 5){
+        //     printMatrix(grid);
+        // }
         printf("Geração %d: %d\n", i+1, getCellsAlive(grid));
     }
     changeGeneration(grid, newGrid);
