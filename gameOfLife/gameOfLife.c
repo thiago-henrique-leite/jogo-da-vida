@@ -6,7 +6,7 @@
 #define TAM 2048
 #define GENERATIONS 2000
 #define PRINTTAM 50
-#define CORES 1
+#define THREADS 8
 
 void initiateMatrix(int **grid){
     int i = 0, j = 0;
@@ -142,7 +142,7 @@ int getCellsAlive(int **grid){
 
 int main (){
 
-    omp_set_num_threads(CORES);
+    omp_set_num_threads(THREADS);
     time_t start, end;
     int **grid, **newGrid, i, j, cellsAlive = 0;
     grid = (int**) malloc (sizeof(int*) * TAM);
@@ -159,9 +159,9 @@ int main (){
     time(&start);
     for(i = 0; i < GENERATIONS-1; i++){
         changeGeneration(grid, newGrid);
-        // if(i < 5){
-        //     printMatrix(grid);
-        // }
+        if(i < 5){
+            printMatrix(grid);
+        }
         printf("Geração %d: %d\n", i+1, getCellsAlive(grid));
     }
     changeGeneration(grid, newGrid);
