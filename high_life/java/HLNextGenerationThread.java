@@ -1,11 +1,11 @@
 package highLife;
 
-import gameOfLife.GameOfLife;
+import highLife.HighLife;
 
 public class HLNextGenerationThread implements Runnable {
 
-    public static int[][] newGrid = new int[GameOfLife.MatrixLength][GameOfLife.MatrixLength];
-    private int[][] grid = new int[GameOfLife.MatrixLength][GameOfLife.MatrixLength];
+    public static int[][] newGrid = new int[HighLife.MatrixLength][HighLife.MatrixLength];
+    private int[][] grid = new int[HighLife.MatrixLength][HighLife.MatrixLength];
     private int threadNum;
     private int numThreads;
 
@@ -19,8 +19,8 @@ public class HLNextGenerationThread implements Runnable {
     public void run() {
         int i, j;
 
-        for(i = threadNum; i < GameOfLife.MatrixLength; i += numThreads)
-            for(j = 0; j < GameOfLife.MatrixLength; j++)
+        for(i = threadNum; i < HighLife.MatrixLength; i += numThreads)
+            for(j = 0; j < HighLife.MatrixLength; j++)
                 newGrid[i][j] = getNewCellStatus(grid, i, j);
     }
 
@@ -37,7 +37,7 @@ public class HLNextGenerationThread implements Runnable {
     }
 
     public int getNeighborsAmount(int grid[][], int row, int column) {
-        int border_limit = GameOfLife.MatrixLength - 1;
+        int border_limit = HighLife.MatrixLength - 1;
 
         int row_up = row - 1;
         int row_down = row + 1;
