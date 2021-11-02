@@ -1,6 +1,0 @@
-{
-  "files.associations": {
-    "string.h": "c",
-    "game_of_life.h": "c"
-  }
-}

@@ -1,2 +1,3 @@
-# jogo-da-vida
-Código para aplicação de Threads
+# Jogo da Vida
+
+Códigos desenvolvidos em C e Java para aplicação de Threads.

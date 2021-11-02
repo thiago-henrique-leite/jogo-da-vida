@@ -1,4 +1,4 @@
-#include "game_of_life.h"
+#include "high_life.h"
 
 int valid_parameters(int argc, char **argv, int *num_threads, int *run_test)
 {
@@ -85,7 +85,7 @@ int get_new_cell_status(int **grid, int i, int j)
     if(grid[i][j] == 1 && neighbors != 2 && neighbors != 3)
         return 0;
     
-    if(grid[i][j] == 0 && neighbors == 3)
+    if(grid[i][j] == 0 && (neighbors == 3 || neighbors == 6))
         return 1;
 
     return grid[i][j];
@@ -124,21 +124,27 @@ void next_generation(int **grid, int **new_grid)
 
 void generate_next_generations_for_test(int **grid, int **new_grid)
 {
+    printf("Condição inicial: %d\n", get_num_cells_alive(grid));
+
     for(int i = 0; i < 5; i++) 
     {
         next_generation(grid, new_grid);
-        print_matrix(grid);
         printf("Geração %d: %d\n", i+1, get_num_cells_alive(grid));
+        print_matrix(grid);
     }
 }
 
 void generate_next_generations(int **grid, int **new_grid)
 {
+    printf("Condição inicial: %d\n", get_num_cells_alive(grid));
+
     for(int i = 0; i < GENERATIONS; i++)
     {
         next_generation(grid, new_grid);
 
-        printf("Geração %d: %d\n", i+1, get_num_cells_alive(grid));
+        if(i < 4 || i == GENERATIONS - 1) {
+            printf("Geração %d: %d\n", i+1, get_num_cells_alive(grid));
+        }
     }
 }
 
