@@ -150,7 +150,8 @@ int main(int argc, char **argv) {
 
     time(&end);
 
-    printf("Tempo de execução: %.2lf segundos.\n", difftime(end, start));
+    if(process_id == 0)
+        printf("Tempo de execução: %.2lf segundos.\n", difftime(end, start));
 
     MPI_Finalize();
 
